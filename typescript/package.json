@@ -1,0 +1,25 @@
+{
+  "name": "calibrtr-client",
+  "version": "1.0.0",
+  "description": "Client library for Calibrtr.com",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "contact@calibrtr.com",
+  "license": "MIT",
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "openai": "^4.32.1"
+  }
+}
