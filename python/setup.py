@@ -1,14 +1,14 @@
 from setuptools import setup
 
 setup(
-    name='calibrtr-client',
-    version='1.0.0',
+    name='calibrtr',
+    version='0.1.2',
     description='Client for calibrtr.com',
     url='',
     author='Tom Fitzsimmons',
     author_email='contact@calibrtr.com',
     license='MIT',
-    packages=['calibrtr-client'],
+    packages=['calibrtr'],
     install_requires=['requests'],
 
     classifiers=[

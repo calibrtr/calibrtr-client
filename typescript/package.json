@@ -1,6 +1,6 @@
 {
-  "name": "calibrtr-client",
-  "version": "1.0.0",
+  "name": "calibrtr",
+  "version": "0.1.0",
   "description": "Client library for Calibrtr.com",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
