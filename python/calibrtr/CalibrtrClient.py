@@ -31,58 +31,65 @@ def serialize_completion(completion):
 
 class CalibrtrClient:
 
-    def __init__(self, deployment_id, api_key, calibrtr_url="https://calibrtr.com/api/v1/deployments/{deploymentId}/logusage"):
+    def __init__(self,
+                 api_key : str,
+                 deployment_id : str = None,
+                 calibrtr_url : str ="https://calibrtr.com/api/v1/logusage"):
         self.deployment_id = deployment_id
         self.api_key = api_key
         self.calibrtr_url = calibrtr_url
 
     def log_usage(self,
-                  ai_provider,
-                  ai_model,
-                  system,
-                  requestTokens,
-                  responseTokens,
-                  feature=None,
-                  user=None,
-                  request=None,
-                    response=None):
-        requestJson = None
+                  ai_provider : str,
+                  ai_model : str,
+                  system : str,
+                  request_tokens : int,
+                  response_tokens : int,
+                  feature : str = None,
+                  user : str = None,
+                  request : any = None,
+                  response : any = None):
+        request_json = None
         if request:
+            # noinspection PyBroadException
             try:
-                requestJson = json.loads(json.dumps(request))
+                request_json = json.loads(json.dumps(request))
             except Exception as e:
                 ()
 
-        responseJson = None
+        response_json = None
         if response:
+            # noinspection PyBroadException
             try:
-                responseJson = json.loads(json.dumps(response))
+                response_json = json.loads(json.dumps(response))
             except Exception as e:
+                # noinspection PyBroadException
                 try:
-                    responseJson = json.loads(json.dumps(serialize_completion(response)))
+                    response_json = json.loads(json.dumps(serialize_completion(response)))
                 except Exception as e:
                     ()
 
-
         headers = {
             'Content-Type': 'application/json',
-            'x-api-key': self.api_key
+            'x-api-key': self.api_key,
             }
+        if self.deployment_id is not None:
+            headers['x-deployment-id'] = self.deployment_id
         data = {
             "aiProvider": ai_provider,
             "aiModel": ai_model,
             "system": system,
-            "requestTokens": requestTokens,
-            "responseTokens": responseTokens,
+            "requestTokens": request_tokens,
+            "responseTokens": response_tokens,
             "feature": feature,
             "user": user,
-            "request": requestJson,
-            "response": responseJson
+            "request": request_json,
+            "response": response_json
         }
         url = self.calibrtr_url.format(deploymentId=self.deployment_id)
         try:
             response = requests.post(url, headers=headers, json=data)
-            if(response.status_code != 200):
+            if response.status_code != 200:
                 print("Error while logging " + response.text)
         except requests.exceptions.RequestException as e:
             print(e)

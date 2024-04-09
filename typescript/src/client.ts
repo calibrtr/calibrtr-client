@@ -10,6 +10,7 @@ export type LogUsageData = {
     user?: string;
     request?: any;
     response?: any;
+    queryDuration?: number;
 }
 
 export type LogOpenAICompletionData = {
@@ -18,6 +19,7 @@ export type LogOpenAICompletionData = {
     system: string;
     feature?: string;
     user?: string;
+    queryDuration?: number;
 }
 
 export type CalibrtrClient = {
@@ -26,23 +28,26 @@ export type CalibrtrClient = {
 }
 
 export type CalibrtrClientOptions = {
-    deploymentId: string;
     apiKey: string;
     calibrtrAPIUrl?: string;
+    deploymentId?: string;
 }
 
-const url = "https://calibrtr.com/api/v1/deployments/{deploymentId}/logusage";
+const url = "https://calibrtr.com/api/v1/logusage";
 
 const logUsageFunc = async (data: LogUsageData,
-                            deploymentId: string,
+                            deploymentId: string | undefined,
                             apiKey: string,
                             calibrtrAPIUrl: string) => {
-    const response = await fetch(calibrtrAPIUrl.replace("{deploymentId}", deploymentId), {
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("x-api-key", apiKey);
+    if(deploymentId) {
+        headers.append("x-deployment-id", deploymentId);
+    }
+    const response = await fetch(calibrtrAPIUrl, {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "x-api-key": apiKey,
-        },
+        headers: headers,
         body: JSON.stringify(data),
     });
     if (!response.ok) {
@@ -61,7 +66,8 @@ export const createCalibrtrClient = ({deploymentId, apiKey, calibrtrAPIUrl}: Cal
                                         request,
                                         response,
                                         system,
-                                        feature
+                                        feature,
+                                        queryDuration
                                     } : LogOpenAICompletionData) => {
             const logData: LogUsageData = {
                 aiProvider: "openai",
@@ -72,6 +78,7 @@ export const createCalibrtrClient = ({deploymentId, apiKey, calibrtrAPIUrl}: Cal
                 responseTokens: response.usage?.completion_tokens ?? 0,
                 request,
                 response,
+                queryDuration
             };
             return await logUsageFunc(logData, deploymentId, apiKey, usedUrl);
         }

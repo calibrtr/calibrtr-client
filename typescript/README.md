@@ -12,7 +12,6 @@ import { createCalibrtrClient } from 'calibrtr';
 import { OpenAI } from 'openai';
 
 const calibrtrClient = createCalibrtrClient({
-    deploymentId: "[CALIBRTR_DEPLOYMENT_ID]",
     apiKey: "[CALIBRTR_API_KEY]",
 });
 
