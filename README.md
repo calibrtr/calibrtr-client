@@ -14,7 +14,7 @@ from openai import OpenAI
 
 openAiClient = OpenAI()
 
-calibrtrClient = CalibrtrClient("DEPLOYMENT_ID", "API_KEY")
+calibrtrClient = CalibrtrClient("API_KEY")
 
 chat_completion = openAiClient.chat.completions.create(
     messages=[
