@@ -39,7 +39,7 @@ class CalibrtrClient:
         self.api_key = api_key
         self.calibrtr_url = calibrtr_url
 
-    def log_usage(self,
+    def log_llm_usage(self,
                   ai_provider : str,
                   ai_model : str,
                   system : str,
@@ -76,6 +76,7 @@ class CalibrtrClient:
         if self.deployment_id is not None:
             headers['x-deployment-id'] = self.deployment_id
         data = {
+            "type": "llm",
             "aiProvider": ai_provider,
             "aiModel": ai_model,
             "system": system,

@@ -25,7 +25,7 @@ chat_completion = openAiClient.chat.completions.create(
     model="gpt-3.5-turbo",
 )
 
-calibrtrClient.log_usage("openai",
+calibrtrClient.log_llm_usage("openai",
                 "gpt-3-turbo", 
                 "test",
                 chat_completion.usage.prompt_tokens,

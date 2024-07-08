@@ -2,3 +2,4 @@ venv
 build
 calibrtr.egg-info
 dist
+**/__pycache__

@@ -29,7 +29,7 @@ const request = {
 
 const chatCompletion = await openAiClient.chat.completions.create(request);
 
-calibrtrClient.logUsage({
+calibrtrClient.logLLMUsage({
         aiProvider: "openai",
         aiModel: "gpt-3-turbo",
         system: "test",
