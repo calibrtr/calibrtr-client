@@ -131,7 +131,7 @@ export const createCalibrtrClient = ({deploymentId, apiKey, calibrtrAPIUrl}: Cal
                 response,
                 duration: queryDuration,
             };
-            return await logUsageFunc({...logData, type:"custom"}, deploymentId, apiKey, usedUrl);
+            return await logUsageFunc({...logData, type:"llm"}, deploymentId, apiKey, usedUrl);
         }
     };
 };
